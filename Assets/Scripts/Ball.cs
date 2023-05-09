@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    float speed=10f;
+
+    
+    private Rigidbody2D rgBody;
+
     void Start()
     {
-        
+        rgBody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
+
+     // transform.Translate(Vector3.up * speed * Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        rgBody.velocity = rgBody.velocity.normalized * speed;
     }
 }
