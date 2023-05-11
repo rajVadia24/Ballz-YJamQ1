@@ -1,18 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class Ballspawner : MonoBehaviour
 {
     private Vector3 worldPosition;
     private Vector3 startPos, endPos;
 
     public GameObject ballPrefab;
-    public GameObject BallPos;
+    public Transform spawnPointer;
+  
+    int countTmep = 0;
+
+    public static Ballspawner instance;
+
+    public TextMeshProUGUI ballText;
+
+    [HideInInspector]
+
+    public bool isSpawnBall=false;
+
     Vector3 direction;
+
+   
+
+   public  int counterBall,tempdestroyBall;
+
+   
     void Start()
     {
-        
+      
+       instance = this;
+        counterBall = 5;
+        tempdestroyBall = 0;
+       
     }
 
     // Update is called once per frame
@@ -42,86 +64,50 @@ public class Ballspawner : MonoBehaviour
     {
          startPos = worldPos;
 
-        Debug.Log("StartPOs" + startPos);
+        
     }
 
     private void mouseDrag(Vector3 worldPos)
     {
         endPos = worldPos;
-        Debug.Log("EndPOs" + endPos);
 
+      
 
-        //direction = endPos - startPos;
-        //direction.Normalize();
-        //float rotatez = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-        //BallPos.transform.localEulerAngles = new Vector3(0, 0, rotatez);
     }
 
 
     private void mouseUp()
     {
-        Vector3 direction = endPos - startPos;
-        direction.Normalize();
 
-      var BallObj=Instantiate(ballPrefab,transform.position, Quaternion.identity);
-        BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
+        if (isSpawnBall == false)
+        {
+            isSpawnBall = true;
+            direction = endPos - startPos;
+            direction.Normalize();
+
+
+            StartCoroutine(spawnBallPrefab());
+        }
+       
 
     }
 
 
+    IEnumerator spawnBallPrefab()
+    {
 
-    //private void OnMouseDown()
-    //{
+        
 
+        for (int i = 1; i <= counterBall; i++)
+        {
+            GameObject BallObj = Instantiate(ballPrefab, spawnPointer.position, Quaternion.identity);
+            BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
 
+            yield return new WaitForSeconds(0.2f);
+          //  tempdestroyBall = i;
+           
+        }
+    }
 
-    //    startPos = worldPosition;
-    //    Debug.Log("OnMouseDownCall" + startPos);
-    //}
-
-
-
-
-
-    //private void OnMouseDrag()
-    //{
-
-
-    //    endPos = worldPosition;
-    //    Debug.Log("OnMouseDrag" + endPos);
-
-    //}
-
-    //private void OnMouseUp()
-    //{
-    //    Vector3 direction = endPos - startPos;
-    //    direction.Normalize();
-
-    //    var BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
-    //    BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
-
-    //    Debug.Log("OnMouseUp");
-
-    //    //float rotatez = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-
-    //    //Vector2 playerPos;
-    //    //playerPos = transform.position;
-    //    //Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-
-    //    //float rotatez = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-
-    //    ////transform.rotation = Quaternion.Euler(0f, 0f, rotatez);
-    //    ////  transform.rotation = Quaternion.Euler(0f, 0f, 90f);
-    //    //transform.localEulerAngles = new Vector3(0, 0, rotatez);
-
-
-
-    //    //GameObject ballObj = Instantiate(ballPrefab, BallPos.transform.position, Quaternion.identity);
-
-    //    //BallPos.transform.localEulerAngles = new Vector3(0, 0, rotatez);
-    //    //ballObj.gameObject.GetComponent<Rigidbody2D>().AddForce(direction);
-    //    //Debug.Log("OnMouseUp");
-
-    //}
+ 
 }
