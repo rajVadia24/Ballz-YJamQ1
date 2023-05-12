@@ -5,27 +5,19 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField]
-    float speed=10f;
+    float speed=1f;
 
-    int counterAddBall = 0;
+   static int counterAddBall = 0;
 
     public static bool isDestroyAllObj = false;
     
     private Rigidbody2D rgBody;
 
-   
+    static int counterDestroy;
 
     void Start()
     {
         rgBody = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-
-     // transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 
     private void FixedUpdate()
@@ -38,37 +30,38 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.tag == "BottomLine")
         {
-            Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
+        
+            counterDestroy++;
 
-            Ballspawner.instance.tempdestroyBall++;
-
-            Debug.Log(Ballspawner.instance.tempdestroyBall);
-
-            if (Ballspawner.instance.tempdestroyBall == Ballspawner.instance.counterBall)
+            if(counterDestroy== Ballspawner.instance.ballPrefList.Count)
             {
-               
-                Ballspawner.instance.ballText.text = "X" + Ballspawner.instance.counterBall;
+                Ballspawner.instance.transform.position = new Vector2(gameObject.transform.position.x, -4.74f);
+                Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y);
+
+                Ballspawner.instance.ballT    ext.text = "X" + Ballspawner.instance.counterBall;
                 Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
+         
+                Ballspawner.instance.ballPrefList.Clear();
+                counterAddBall = 0;
                 Ballspawner.instance.isSpawnBall = false;
             }
+
             Destroy(gameObject);
+
+         
         }
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-       
+        
         if (collision.gameObject.tag == "ballPower")
         {
             counterAddBall++;
-          
-            Ballspawner.instance.counterBall += counterAddBall;
-            Ballspawner.instance.tempdestroyBall++;
             Destroy(collision.gameObject);
-
-            
+            Ballspawner.instance.counterBall += counterAddBall;
+           
            
         }
     }
