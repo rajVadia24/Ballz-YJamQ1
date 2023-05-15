@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
     [SerializeField]
     float speed=1f;
 
-   static int counterAddBall = 0;
+    static int counterAddBall = 0;
 
     public static bool isDestroyAllObj = false;
     
@@ -15,9 +15,21 @@ public class Ball : MonoBehaviour
 
     static int counterDestroy;
 
+
+    DirectionLine directionLine;
+
+    BlockSpawner blockSpawner;
+
+    private void OnEnable()
+    {
+        blockSpawner = FindObjectOfType<BlockSpawner>();
+    }
+
     void Start()
     {
         rgBody = GetComponent<Rigidbody2D>();
+        directionLine = GetComponent<DirectionLine>();
+       
     }
 
     private void FixedUpdate()
@@ -33,17 +45,27 @@ public class Ball : MonoBehaviour
         
             counterDestroy++;
 
-            if(counterDestroy== Ballspawner.instance.ballPrefList.Count)
+         
+
+            if (counterDestroy== Ballspawner.instance.ballPrefList.Count)
             {
+              
+                blockSpawner.spawnBlock();
+
                 Ballspawner.instance.transform.position = new Vector2(gameObject.transform.position.x, -4.74f);
                 Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y);
 
-                Ballspawner.instance.ballT    ext.text = "X" + Ballspawner.instance.counterBall;
+                Ballspawner.instance.ballText.text = "X" + Ballspawner.instance.counterBall;
                 Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
-         
+
+               
                 Ballspawner.instance.ballPrefList.Clear();
                 counterAddBall = 0;
+                counterDestroy = 0;
                 Ballspawner.instance.isSpawnBall = false;
+
+                // directionLine.lineRenderer.enabled = false;
+               
             }
 
             Destroy(gameObject);
@@ -59,10 +81,9 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.tag == "ballPower")
         {
             counterAddBall++;
-            Destroy(collision.gameObject);
             Ballspawner.instance.counterBall += counterAddBall;
-           
-           
+            Destroy(collision.gameObject);
+
         }
     }
 

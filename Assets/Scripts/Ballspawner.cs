@@ -10,7 +10,7 @@ public class Ballspawner : MonoBehaviour
     private Vector3 startPos, endPos;
 
     public GameObject ballPrefab;
-    public Transform spawnPointer;
+ //   public Transform spawnPointer;
   
     int countTmep = 0;
 
@@ -24,22 +24,36 @@ public class Ballspawner : MonoBehaviour
 
     Vector3 direction;
 
+   
     public GameObject BallObj;
 
    public  int counterBall,tempdestroyBall,balldestroy;
 
-
-    
-
    public List<GameObject> ballPrefList=new List<GameObject>();
+
+   
+    DirectionLine directionLine;
+
+    BlockSpawner blockSpawner;
+    private void Awake()
+    {
+        directionLine = GetComponent<DirectionLine>();
+        blockSpawner = FindObjectOfType<BlockSpawner>();
+    }
+
+
+
+
     void Start()
     {
-      
-       instance = this;
+        
+
+        instance = this;
         counterBall = 1;
         ballText.text = "X" + counterBall;
         tempdestroyBall = 0;
-       
+        blockSpawner.spawnBlock();
+
     }
 
     // Update is called once per frame
@@ -67,15 +81,21 @@ public class Ballspawner : MonoBehaviour
 
     void mouseDonw(Vector3 worldPos)
     {
-         startPos = worldPos;
 
-        
+        directionLine.lineRenderer.enabled = true;
+         startPos = worldPos;
+        directionLine.lineRenderer.enabled = true;
+        directionLine.startPoints(transform.position);
+
+
     }
 
     private void mouseDrag(Vector3 worldPos)
     {
         endPos = worldPos;
 
+        Vector3 directionLinePoint = endPos - startPos;
+        directionLine.endPoints(transform.position-directionLinePoint);
     }
 
 
@@ -86,7 +106,7 @@ public class Ballspawner : MonoBehaviour
             isSpawnBall = true;
             direction = endPos - startPos;
             direction.Normalize();
-
+            directionLine.lineRenderer.enabled = false;
 
             StartCoroutine(spawnBallPrefab());
         }
