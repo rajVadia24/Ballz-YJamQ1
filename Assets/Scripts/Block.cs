@@ -33,14 +33,14 @@ public class Block : MonoBehaviour
 
         Brikstext.SetText(hitsBrikcs.ToString());
        
-        if (isColor == false)
-        {
-            isColor = true;
-            colorChange = Random.Range(1, 6);
-             RandomColorBricks();
+        //if (isColor == false)
+        //{
+        //    isColor = true;
+        //    colorChange = Random.Range(1, 6);
+        //   //  RandomColorBricks();
        
             
-        }
+        //}
        
     }
 

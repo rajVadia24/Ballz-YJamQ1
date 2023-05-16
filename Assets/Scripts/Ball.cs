@@ -81,7 +81,7 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.tag == "ballPower")
         {
             counterAddBall++;
-            Ballspawner.instance.counterBall += counterAddBall;
+            Ballspawner.instance.counterBall++; 
             Destroy(collision.gameObject);
 
         }

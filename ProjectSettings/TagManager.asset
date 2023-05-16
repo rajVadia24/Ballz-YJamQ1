@@ -8,6 +8,7 @@ TagManager:
   - BottomLine
   - block
   - ball
+  - score
   layers:
   - Default
   - TransparentFX

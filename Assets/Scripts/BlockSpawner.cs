@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BlockSpawner : MonoBehaviour
 {
@@ -15,19 +16,25 @@ public class BlockSpawner : MonoBehaviour
     [SerializeField]
     private GameObject scoreSpawnwer;
 
-    private int  blockSize=7; 
+    private int  blockSize=7;
+    int hitsBlock;
 
     private float distanceBetweenBlocks=0.75f;
 
-    private int rowSpan=1, scorePower=0;
-   
+    private int rowSpan=1, scoreCheck,ballsCheck;
 
+    GameObject block, ScoreObj;
     int counterPower=0;
     int maintainScore;
 
+    int ScoreCall, BallsCall;
+
     private List<GameObject> blockSpawn = new List<GameObject>();
    
-    GameObject ballSpawn, score;
+    GameObject ballSpawn;
+
+    
+
    
     private void OnEnable()
     {
@@ -45,7 +52,9 @@ public class BlockSpawner : MonoBehaviour
             if(block != null)
             {
                 block.transform.position += Vector3.down * distanceBetweenBlocks;
-                counterPower = 0;
+                ballsCheck = 0;
+                scoreCheck = 0;
+               
             }
            
 
@@ -55,46 +64,49 @@ public class BlockSpawner : MonoBehaviour
         {
             if (UnityEngine.Random.Range(0, 100) <= 40)
             {
-                GameObject block = Instantiate(blockPrefab, GetPosition(i), Quaternion.identity);
+                 block = Instantiate(blockPrefab, GetPosition(i), Quaternion.identity);
 
-                int hitsBlock = UnityEngine.Random.Range(1, 3) * rowSpan;
+                hitsBlock = UnityEngine.Random.Range(1, 3) * rowSpan;
                 block.GetComponent<Block>().setHits(hitsBlock);
-
                 blockSpawn.Add(block);
                 maintainScore = i;
+                RandomColorBricks();
                 Debug.Log(maintainScore);
 
             }
             else
             {
-                Debug.Log("Elese");
-                if (counterPower == 0 || scorePower==0)
-                {
-                   
+                
 
-                    if (UnityEngine.Random.Range(0, 100) <= 50 && rowSpan != 1)
+                    if (Random.Range(0, 100) <= 30 && rowSpan != 1 && ballsCheck == 0)
                     {
-                        counterPower = 1;
+                        
                         ballSpawn = Instantiate(ballspawner, GetPosition(i), Quaternion.identity);
-                        Debug.Log("Pos=" + ballSpawn.transform.position);
                         blockSpawn.Add(ballSpawn);
-                        Debug.Log("Balls Spawn");
+                        ballsCheck = 1;
                     }
-                    if (UnityEngine.Random.Range(0, 100) <= 50 && rowSpan != 1 && i <= 7)
+                    else
                     {
-
-                        scorePower = 1;
-                        Debug.Log("Call  " + (maintainScore + 1));
-                        score = Instantiate(scoreSpawnwer, GetPosition(maintainScore+1), Quaternion.identity);
-                        blockSpawn.Add(score);
+                       if (Random.Range(0, 100) <= 10 && rowSpan != 1 && scoreCheck==0)
+                        {
+                            ScoreObj = Instantiate(scoreSpawnwer, GetPosition(i), Quaternion.identity);
+                            blockSpawn.Add(ScoreObj);
+                            scoreCheck = 1;
+                        }
                     }
-                    maintainScore = i;
-                    
-                }
+                
 
             }
+
         }
-        rowSpan++; ;
+
+      //  RandomColorBricks();
+
+        rowSpan++;
+      //  CoinManage.instance.setLevel((rowSpan-1).ToString());
+
+
+
     }
 
     private Vector2 GetPosition(int i)
@@ -105,11 +117,36 @@ public class BlockSpawner : MonoBehaviour
     }
 
 
-     private void RandomColorBricks() {
 
-        
+    private void RandomColorBricks()
+    {
+       int    colorChange = Random.Range(1, 6);
+        switch (colorChange)
+        {
+            case 1:
+                block.GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+            case 2:
+                block.GetComponent<SpriteRenderer>().color = Color.yellow;
+                break;
+            case 3:
+                block.GetComponent<SpriteRenderer>().color = Color.gray;
+                break;
+            case 4:
+                block.GetComponent<SpriteRenderer>().color = Color.green;
+                break;
+            case 5:
+                block.GetComponent<SpriteRenderer>().color = Color.blue;
+                break;
+            case 6:
+                block.GetComponent<SpriteRenderer>().color = Color.cyan;
+                break;
+            default:
+                block.GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+
+        }
     }
-
 
     // Update is called once per frame
     void Update()
