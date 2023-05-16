@@ -30,6 +30,8 @@ public class SaveManager : MonoBehaviour
         filePath2 = Application.persistentDataPath + "/jsonDataSave.don";
         LoadPlayer();
         instance = this;
+
+        scoreTxt.text = playerData.coin;
     }
 
 
