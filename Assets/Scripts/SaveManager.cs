@@ -16,13 +16,15 @@ public class SaveManager : MonoBehaviour
     static string filePath;
 
 
-   
+    int score = 0;
+
+    public int highScr=0,counterHighScore=0;
 
     string filePath2;
 
-    public TextMeshProUGUI scoreTxt, levelTxt,highScore;
+    public TextMeshProUGUI scoreTxt, levelTxt,highScoreTxt;
 
-   public  PlayerData playerData = new PlayerData();
+    public  PlayerData playerData = new PlayerData();
 
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class SaveManager : MonoBehaviour
         instance = this;
 
         scoreTxt.text = playerData.coin;
+        highScoreTxt.text = playerData.highScore;
     }
 
 
@@ -65,11 +68,23 @@ public class SaveManager : MonoBehaviour
         levelTxt.text = level;
     }
 
-    public void setHighScore(int score ,int level) {
-        if(score > level)
-        {
-            highScore.text = score.ToString();
+    public void setHighScore(string level) {
+
+
+        Debug.Log("HIGH" + level);
+
+        int getScore = int.Parse(level);
+        if (counterHighScore < getScore) {
+
+            counterHighScore = getScore;
+
+            playerData.highScore = counterHighScore.ToString();
+
+            highScoreTxt.text = playerData.highScore;
         }
+
+       
+        savePlayer();
 
     }
 

@@ -16,8 +16,8 @@ TagManager:
   - Ball
   - Water
   - UI
-  - 
-  - 
+  - Canvas
+  - Background
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 21278303
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

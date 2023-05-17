@@ -56,7 +56,7 @@ public class Ball : MonoBehaviour
                 Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y);
 
                 Ballspawner.instance.ballText.text = "X" + Ballspawner.instance.counterBall;
-                Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
+              //  Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
 
                
                 Ballspawner.instance.ballPrefList.Clear();

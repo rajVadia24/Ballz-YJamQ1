@@ -15,6 +15,7 @@ public class BlockSpawner : MonoBehaviour
 
     [SerializeField]
     private GameObject scoreSpawnwer;
+    public GameObject parentObject;
 
     private int  blockSize=7;
     int hitsBlock;
@@ -33,7 +34,7 @@ public class BlockSpawner : MonoBehaviour
    
     GameObject ballSpawn;
 
-    
+    int level;
 
    
     private void OnEnable()
@@ -42,6 +43,12 @@ public class BlockSpawner : MonoBehaviour
         {
             spawnBlock();
          }
+    }
+
+
+    private void Start()
+    {
+        level = int.Parse(SaveManager.instance.scoreTxt.text);
     }
 
     public void spawnBlock()
@@ -64,7 +71,11 @@ public class BlockSpawner : MonoBehaviour
         {
             if (UnityEngine.Random.Range(0, 100) <= 40)
             {
-                 block = Instantiate(blockPrefab, GetPosition(i), Quaternion.identity);
+                
+
+                block = Instantiate(blockPrefab, GetPosition(i), Quaternion.identity);
+                block.transform.parent = parentObject.transform;
+
 
                 hitsBlock = UnityEngine.Random.Range(1, 3) * rowSpan;
                 block.GetComponent<Block>().setHits(hitsBlock);
@@ -82,6 +93,7 @@ public class BlockSpawner : MonoBehaviour
                     {
                         
                         ballSpawn = Instantiate(ballspawner, GetPosition(i), Quaternion.identity);
+                        ballSpawn.transform.parent = parentObject.transform;
                         blockSpawn.Add(ballSpawn);
                         ballsCheck = 1;
                     }
@@ -90,6 +102,7 @@ public class BlockSpawner : MonoBehaviour
                        if (Random.Range(0, 100) <= 10 && rowSpan != 1 && scoreCheck==0)
                         {
                             ScoreObj = Instantiate(scoreSpawnwer, GetPosition(i), Quaternion.identity);
+                            ScoreObj.transform.parent = parentObject.transform;
                             blockSpawn.Add(ScoreObj);
                             scoreCheck = 1;
                         }
@@ -103,7 +116,10 @@ public class BlockSpawner : MonoBehaviour
       //  RandomColorBricks();
 
         rowSpan++;
-      //  CoinManage.instance.setLevel((rowSpan-1).ToString());
+
+        SaveManager.instance.levelTxt.text = (rowSpan - 1).ToString();
+       
+        SaveManager.instance.highScr=int.Parse(SaveManager.instance.levelTxt.text);
 
 
 

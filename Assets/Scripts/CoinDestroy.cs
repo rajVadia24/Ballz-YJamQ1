@@ -5,13 +5,15 @@ using UnityEngine;
 public class CoinDestroy : MonoBehaviour
 {
     static int coin;
+
     void Start()
     {
-        
+        coin = int.Parse(SaveManager.instance.scoreTxt.text);
+        SaveManager.instance.scoreTxt.text = coin.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+        void Update()
     {
         
     }
@@ -23,7 +25,6 @@ public class CoinDestroy : MonoBehaviour
             Destroy(gameObject);
 
             coin += 1;
-          //  CoinManage.instance.setScore(CoinManage.instance.coinVal.ToString());
             SaveManager.instance.setCoin(coin.ToString());
         }
     }
