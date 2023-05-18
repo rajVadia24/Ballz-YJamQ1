@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Ballspawner : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class Ballspawner : MonoBehaviour
 
     [HideInInspector]
 
-    public bool isSpawnBall=false;
+    public  bool isSpawnBall=false;
 
     Vector3 direction;
 
@@ -35,13 +36,25 @@ public class Ballspawner : MonoBehaviour
     DirectionLine directionLine;
 
     BlockSpawner blockSpawner;
+
+
+    public Action InputEnableDisable;
+
+
+ 
+
     private void Awake()
     {
         directionLine = GetComponent<DirectionLine>();
         blockSpawner = FindObjectOfType<BlockSpawner>();
+
     }
 
-
+    private void OnEnable()
+    {
+        
+        InputEnableDisable += OnmouseManage;
+    }
 
 
     void Start()
@@ -60,22 +73,31 @@ public class Ballspawner : MonoBehaviour
     void Update()
     {
         worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.back * - 10f;
-            
 
 
+
+       InputEnableDisable?.Invoke();
+
+    }
+
+    public void OnmouseManage()
+    {
+        Debug.Log("Working");
         if (Input.GetMouseButtonDown(0))
         {
             mouseDonw(worldPosition);
+           // isSpawnBall = false;
         }
-      else  if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0))
         {
             mouseDrag(worldPosition);
+          //  isSpawnBall = false;
         }
-      else  if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
             mouseUp();
-        }
 
+        }
     }
 
 
@@ -109,6 +131,8 @@ public class Ballspawner : MonoBehaviour
             directionLine.lineRenderer.enabled = false;
 
             StartCoroutine(spawnBallPrefab());
+
+            Debug.Log("call");
         }
     }
 

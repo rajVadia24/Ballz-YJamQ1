@@ -20,7 +20,7 @@ public class BlockSpawner : MonoBehaviour
     private int  blockSize=7;
     int hitsBlock;
 
-    private float distanceBetweenBlocks=0.75f;
+    private float distanceBetweenBlocks=0.78f;
 
     private int rowSpan=1, scoreCheck,ballsCheck;
 
@@ -36,10 +36,14 @@ public class BlockSpawner : MonoBehaviour
 
     int level;
 
-   
+
+    public static BlockSpawner instance;
+
+
     private void OnEnable()
     {
-        for(int i = 1; i < 1; i++)
+        instance = this;
+        for (int i = 1; i < 1; i++)
         {
             spawnBlock();
          }
@@ -49,6 +53,7 @@ public class BlockSpawner : MonoBehaviour
     private void Start()
     {
         level = int.Parse(SaveManager.instance.scoreTxt.text);
+       
     }
 
     public void spawnBlock()
@@ -59,6 +64,9 @@ public class BlockSpawner : MonoBehaviour
             if(block != null)
             {
                 block.transform.position += Vector3.down * distanceBetweenBlocks;
+
+              //  block.transform.position = Vector3.Lerp(transform.position, Vector3.down * distanceBetweenBlocks, Time.deltaTime);
+
                 ballsCheck = 0;
                 scoreCheck = 0;
                
@@ -118,7 +126,9 @@ public class BlockSpawner : MonoBehaviour
         rowSpan++;
 
         SaveManager.instance.levelTxt.text = (rowSpan - 1).ToString();
-       
+        SaveManager.instance.gameoverLevel.text = (rowSpan - 1).ToString();
+        SaveManager.instance.gameoverLevel.text = "BEST "+(rowSpan - 1);
+        
         SaveManager.instance.highScr=int.Parse(SaveManager.instance.levelTxt.text);
 
 
@@ -129,6 +139,7 @@ public class BlockSpawner : MonoBehaviour
     {
         Vector2 position = transform.position;
         position += Vector2.right * i * distanceBetweenBlocks;
+        Debug.Log(position);
         return position;
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class HomeButtonNav : MonoBehaviour
+public class ScoreScreen : MonoBehaviour
 {
 
     [SerializeField] private Button HomeButton;
@@ -13,20 +13,20 @@ public class HomeButtonNav : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       HomeButton.onClick.AddListener(HomeBtn);
+        HomeButton.onClick.AddListener(HomeBtn);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void HomeBtn()
     {
-        ScreenNavigator.inst.ShowNextScreen(ScreenType.HomeScreen);
+        ScreenManager.instance.ShowNextScreen(ScreenType.PauseScreen);
     }
 
-   
+
 }

@@ -22,7 +22,7 @@ public class SaveManager : MonoBehaviour
 
     string filePath2;
 
-    public TextMeshProUGUI scoreTxt, levelTxt,highScoreTxt;
+    public TextMeshProUGUI scoreTxt, levelTxt,highScoreTxt,gameOverBestScore,gameoverLevel;
 
     public  PlayerData playerData = new PlayerData();
 
@@ -35,6 +35,7 @@ public class SaveManager : MonoBehaviour
 
         scoreTxt.text = playerData.coin;
         highScoreTxt.text = playerData.highScore;
+        gameOverBestScore.text = playerData.highScore;
     }
 
 

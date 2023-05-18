@@ -2,20 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenNavigator : MonoBehaviour
+public class ScreenManager : MonoBehaviour
 {
     public BaseClass[] screens;
     public BaseClass currentScreen;
-    public static ScreenNavigator inst;
+    public static ScreenManager instance;
 
     private void Awake()
     {
-        inst = this;
+        instance = this;
     }
 
     private void Start()
     {
         currentScreen.canvas.enabled = true;
+       
     }
 
     public void ShowNextScreen(ScreenType screenType)
@@ -27,10 +28,10 @@ public class ScreenNavigator : MonoBehaviour
             if (baseScreen.screenType == screenType)
             {
                 baseScreen.canvas.enabled = true;
+                currentScreen = baseScreen;
                 break;
             }
 
-            currentScreen = baseScreen;
         }
     }
 }

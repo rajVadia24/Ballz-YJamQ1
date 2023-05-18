@@ -18,7 +18,9 @@ public class BaseClass : MonoBehaviour
 
 public enum ScreenType
 {
-    HomeScreen,
-    GameScreen,
-    YoloScreen,
+    MainScreen,
+    ScoreScreen,
+    PauseScreen,
+    GameOverScreen
+
 }

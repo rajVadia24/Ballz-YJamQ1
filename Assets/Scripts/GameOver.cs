@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameOver : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Canvas gameOver;
     void Start()
     {
         
@@ -24,6 +24,8 @@ public class GameOver : MonoBehaviour
             Debug.Log("------ Game Over ------");
 
             SaveManager.instance.setHighScore(SaveManager.instance.highScr.ToString());
+              ScreenManager.instance.ShowNextScreen(ScreenType.GameOverScreen);
+          //  gameOver.GetComponent<Canvas>().enabled = true;
         }
     }
 }

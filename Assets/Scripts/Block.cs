@@ -9,7 +9,7 @@ public class Block : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
 
-    public TextMeshProUGUI Brikstext;
+    public TextMesh Brikstext;
 
     int colorChange;
 
@@ -31,7 +31,7 @@ public class Block : MonoBehaviour
     public void updateViewState()
     {
 
-        Brikstext.SetText(hitsBrikcs.ToString());
+        Brikstext.text= hitsBrikcs.ToString();
        
         //if (isColor == false)
         //{

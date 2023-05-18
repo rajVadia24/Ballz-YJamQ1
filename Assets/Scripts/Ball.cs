@@ -23,6 +23,7 @@ public class Ball : MonoBehaviour
     private void OnEnable()
     {
         blockSpawner = FindObjectOfType<BlockSpawner>();
+       // blockSpawner = GetComponent<BlockSpawner>();
     }
 
     void Start()
@@ -45,12 +46,13 @@ public class Ball : MonoBehaviour
         
             counterDestroy++;
 
-         
+            Destroy(gameObject);
 
             if (counterDestroy== Ballspawner.instance.ballPrefList.Count)
             {
-              
+                Ballspawner.instance.ballPrefList.Clear();
                 blockSpawner.spawnBlock();
+            //    BlockSpawner.instance.spawnBlock();
 
                 Ballspawner.instance.transform.position = new Vector2(gameObject.transform.position.x, -4.74f);
                 Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y);
@@ -59,16 +61,17 @@ public class Ball : MonoBehaviour
               //  Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
 
                
-                Ballspawner.instance.ballPrefList.Clear();
+              
                 counterAddBall = 0;
                 counterDestroy = 0;
+
                 Ballspawner.instance.isSpawnBall = false;
 
                 // directionLine.lineRenderer.enabled = false;
                
             }
 
-            Destroy(gameObject);
+           
 
          
         }
