@@ -6,22 +6,28 @@ public class CoinDestroy : MonoBehaviour
 {
     static int coin;
 
-    void Start()
+
+    private void OnEnable()
     {
         coin = int.Parse(SaveManager.instance.scoreTxt.text);
-        SaveManager.instance.scoreTxt.text = coin.ToString();
+    }
+    void Start()
+    {
+       
+       SaveManager.instance.scoreTxt.text = coin.ToString();
     }
 
         // Update is called once per frame
         void Update()
     {
-        
+      //  SaveManager.instance.scoreTxt.text = coin.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "ball")
         {
+            AudioManager.instance.Play("coin");
             Destroy(gameObject);
 
             coin += 1;

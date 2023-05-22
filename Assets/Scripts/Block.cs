@@ -86,14 +86,16 @@ public class Block : MonoBehaviour
         {
 
             hitsBrikcs--;
+            AudioManager.instance.Play("ballTouch");
             if (hitsBrikcs > 0)
             { 
                 updateViewState();
-
+               
             }
             else
             {
                 Destroy(gameObject);
+
             }
         }
     }

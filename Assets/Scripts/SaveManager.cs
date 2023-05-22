@@ -28,8 +28,8 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        filePath = Application.dataPath + "/jsonDataSave.json";
-        filePath2 = Application.persistentDataPath + "/jsonDataSave.don";
+        filePath = Application.persistentDataPath + "/jsonDataSave.json";
+        //filePath2 = Application.persistentDataPath + "/jsonDataSave.don";
         LoadPlayer();
         instance = this;
 
@@ -100,7 +100,7 @@ public class SaveManager : MonoBehaviour
             string jsonData = File.ReadAllText(filePath);
             playerData = JsonUtility.FromJson<PlayerData>(jsonData);
 
-            Debug.Log(playerData);
+          
         }
         else
         {

@@ -10,9 +10,9 @@ public class PauseScreen : MainScreen
     [SerializeField] private Button continueBtn;
     [SerializeField] private Button PlayScreenBtn;
     [SerializeField] private Button restartBtn;
+    public static bool cllsecondTime = false;
 
-
-    MainScreen main = new MainScreen();
+    //MainScreen main = new MainScreen();
     void Start()
     {
         continueBtn.onClick.AddListener(MainScreenNavigate);
@@ -30,20 +30,33 @@ public class PauseScreen : MainScreen
     void MainScreenNavigate()
     {
         ScreenManager.instance.ShowNextScreen(ScreenType.ScoreScreen);
-     
+        Ballspawner.isPlay = false;
+        Time.timeScale = 1;
+        StartCoroutine(ballInputs());
+        AudioManager.instance.Play("button");
+
     }
     void PlayScreenNavigate()
     {
-
-        main.GetComponent<Canvas>().enabled = false;
-        SceneManager.LoadScene(1);
-        main.HomeBtn();
+        AudioManager.instance.Play("button");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Ballspawner.isPlay = false;
+        Time.timeScale = 1;
+        StartCoroutine(ballInputs());
     }
 
     void Restartgame()
     {
-        ScreenManager.instance.ShowNextScreen(ScreenType.MainScreen);
+        AudioManager.instance.Play("button");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Ballspawner.isPlay = false;
+        Time.timeScale = 1;
+        StartCoroutine(ballInputs());
     }
 
-
+    IEnumerator ballInputs()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Ballspawner.instance.isSpawnBall = false;
+    }
 }

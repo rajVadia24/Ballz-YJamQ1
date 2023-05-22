@@ -28,15 +28,27 @@ public class GameOverScreen : MonoBehaviour
 
     void MainScreenNavigate()
     {
-        ScreenManager.instance.ShowNextScreen(ScreenType.MainScreen);
+        AudioManager.instance.Play("button");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Ballspawner.isPlay = false;
+        Time.timeScale = 1;
+        StartCoroutine(ballInputs());
 
     }
     void PlayScreenNavigate()
     {
-        ScreenManager.instance.ShowNextScreen(ScreenType.MainScreen);
+        AudioManager.instance.Play("button");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Ballspawner.isPlay = false;
+        Time.timeScale = 1;
+        StartCoroutine(ballInputs());
     }
 
-  
+    IEnumerator ballInputs()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Ballspawner.instance.isSpawnBall = false;
+    }
 
 
 }

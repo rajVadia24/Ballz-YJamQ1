@@ -30,7 +30,7 @@ public class BlockSpawner : MonoBehaviour
 
     int ScoreCall, BallsCall;
 
-    private List<GameObject> blockSpawn = new List<GameObject>();
+    public List<GameObject> blockSpawn = new List<GameObject>();
    
     GameObject ballSpawn;
 
@@ -39,21 +39,50 @@ public class BlockSpawner : MonoBehaviour
 
     public static BlockSpawner instance;
 
+    public Action spawnBlocksAction;
 
+    Ballspawner ballspawnerCall;
+
+    public Action callRestartBlocks;
     private void OnEnable()
     {
         instance = this;
-        for (int i = 1; i < 1; i++)
+        spawnBlocksAction += spawnBlock;
+      
+
+        callRestartBlocks += restartGameBlock;
+
+        if (MainScreen.ispawnObj == true)
         {
-            spawnBlock();
-         }
+            for (int i = 1; i < 1; i++)
+            {
+                spawnBlocksAction?.Invoke();
+                //spawnBlock();
+            }
+        }
+       
     }
+
+    
+    
+
+  
+   
 
 
     private void Start()
     {
         level = int.Parse(SaveManager.instance.scoreTxt.text);
-       
+        ballspawnerCall = GetComponent<Ballspawner>();
+    }
+
+
+    public void restartGameBlock()
+    {
+        blockSpawn.Clear();
+        rowSpan = 1;
+        SaveManager.instance.levelTxt.text = (rowSpan - 1).ToString();
+     //   ballspawnerCall.counterBall = 1;
     }
 
     public void spawnBlock()
@@ -90,8 +119,7 @@ public class BlockSpawner : MonoBehaviour
                 blockSpawn.Add(block);
                 maintainScore = i;
                 RandomColorBricks();
-                Debug.Log(maintainScore);
-
+               
             }
             else
             {
@@ -139,11 +167,10 @@ public class BlockSpawner : MonoBehaviour
     {
         Vector2 position = transform.position;
         position += Vector2.right * i * distanceBetweenBlocks;
-        Debug.Log(position);
         return position;
     }
 
-
+   
 
     private void RandomColorBricks()
     {

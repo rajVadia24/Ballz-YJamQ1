@@ -16,16 +16,28 @@ public class GameOver : MonoBehaviour
         
     }
 
-  
-   private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "block")
+
+        if (collision.gameObject.tag == "block" || collision.gameObject.tag == "ballPower" || collision.gameObject.tag == "score")
         {
             Debug.Log("------ Game Over ------");
 
             SaveManager.instance.setHighScore(SaveManager.instance.highScr.ToString());
-              ScreenManager.instance.ShowNextScreen(ScreenType.GameOverScreen);
-          //  gameOver.GetComponent<Canvas>().enabled = true;
+            ScreenManager.instance.ShowNextScreen(ScreenType.GameOverScreen);
+            //  gameOver.GetComponent<Canvas>().enabled = true;
         }
     }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "block" || collision.gameObject.tag == "ballPower" || collision.gameObject.tag == "score")
+    //    {
+    //        Debug.Log("------ Game Over ------");
+
+    //        SaveManager.instance.setHighScore(SaveManager.instance.highScr.ToString());
+    //          ScreenManager.instance.ShowNextScreen(ScreenType.GameOverScreen);
+    //      //  gameOver.GetComponent<Canvas>().enabled = true;
+    //    }
+    //}
 }

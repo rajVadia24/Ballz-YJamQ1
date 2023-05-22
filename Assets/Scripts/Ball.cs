@@ -41,17 +41,19 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "BottomLine")
+        if (collision.gameObject.tag == "BottomLine" && Ballspawner.countTmep==1)
         {
         
             counterDestroy++;
 
-            Destroy(gameObject);
+            
 
             if (counterDestroy== Ballspawner.instance.ballPrefList.Count)
             {
+
+                Ballspawner.countTmep = 0;
                 Ballspawner.instance.ballPrefList.Clear();
-                blockSpawner.spawnBlock();
+               
             //    BlockSpawner.instance.spawnBlock();
 
                 Ballspawner.instance.transform.position = new Vector2(gameObject.transform.position.x, -4.74f);
@@ -64,16 +66,18 @@ public class Ball : MonoBehaviour
               
                 counterAddBall = 0;
                 counterDestroy = 0;
+                blockSpawner.spawnBlock();
 
                 Ballspawner.instance.isSpawnBall = false;
 
                 // directionLine.lineRenderer.enabled = false;
+
                
             }
 
-           
 
-         
+            Destroy(gameObject);
+
         }
     }
 
@@ -83,6 +87,7 @@ public class Ball : MonoBehaviour
         
         if (collision.gameObject.tag == "ballPower")
         {
+            AudioManager.instance.Play("button");
             counterAddBall++;
             Ballspawner.instance.counterBall++; 
             Destroy(collision.gameObject);

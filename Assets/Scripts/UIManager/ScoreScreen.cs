@@ -25,7 +25,11 @@ public class ScoreScreen : MonoBehaviour
 
     void HomeBtn()
     {
+        AudioManager.instance.Play("button");
+        Ballspawner.isPlay = true;
         ScreenManager.instance.ShowNextScreen(ScreenType.PauseScreen);
+        Time.timeScale = 0;
+        Ballspawner.instance.isSpawnBall = true;
     }
 
 
