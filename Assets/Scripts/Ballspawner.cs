@@ -40,7 +40,7 @@ public class Ballspawner : MonoBehaviour
 
 
     public Action InputEnableDisable;
-
+    static int count;
 
    public static bool isPlay=false;
 
@@ -63,10 +63,16 @@ public class Ballspawner : MonoBehaviour
         
 
         instance = this;
+        //    counterBall = ObjectPool.instance.amountToPool;
+        //    counterBall = 1;
+
+      
         counterBall = 1;
         ballText.text = "X" + counterBall;
         tempdestroyBall = 0;
         blockSpawner.spawnBlock();
+
+        
 
     }
 
@@ -74,9 +80,6 @@ public class Ballspawner : MonoBehaviour
     void Update()
     {
         worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.back * - 10f;
-
-
-
        InputEnableDisable?.Invoke();
 
     }
@@ -137,7 +140,7 @@ public class Ballspawner : MonoBehaviour
             //    directionLine.lineRenderer.enabled = true;
             //}
 
-            Debug.Log("DRAG" + endPos);
+       //     Debug.Log("DRAG" + endPos);
 
         }
     }
@@ -151,10 +154,10 @@ public class Ballspawner : MonoBehaviour
             direction = endPos - startPos;
             direction.Normalize();
             directionLine.lineRenderer.enabled = false;
-
+           
             StartCoroutine(spawnBallPrefab());
 
-            Debug.Log("UP" + isSpawnBall);
+          //  Debug.Log("UP" + isSpawnBall);
         }
     }
 
@@ -162,20 +165,48 @@ public class Ballspawner : MonoBehaviour
     IEnumerator spawnBallPrefab()
     {
 
+        Debug.Log("herer");
+        count = counterBall;
+        Debug.Log("ADD" + counterBall);
         for (int i = 1; i <= counterBall; i++)
         {
             tempdestroyBall = i;
-            BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
-            BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
 
+            BallObj = ObjectPool.instance.pooObject();
+
+
+
+            if (BallObj != null)
+            {
+                BallObj.transform.position = transform.position;
+                BallObj.transform.rotation = transform.rotation;
+
+                BallObj.SetActive(true);
+                //BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
+                BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
+            }
+
+
+            if (count >= 0)
+            {
+                count = count - 1;
+                ballText.text = "X" + count;
+                Debug.Log(count);
+            }
+           
+            //
+           
             ballPrefList.Add(BallObj);
 
+
+
+
             yield return new WaitForSeconds(0.1f);
-           
+
             countTmep = 1;
 
-        }
 
+        }
         
     }
 

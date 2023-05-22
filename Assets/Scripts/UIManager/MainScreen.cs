@@ -10,11 +10,13 @@ public class MainScreen : MonoBehaviour
     [SerializeField] private Button HomeButton;
     public static bool ispawnObj = false;
 
-   
+   public 
     
     void Start()
     {
+        
         HomeButton.onClick.AddListener(HomeBtn);
+
         //BlockSpawner.instance.GetComponent<BlockSpawner>().enabled = false;
         //Ballspawner.instance.InputEnableDisable = null;
         //BlockSpawner.instance.spawnBlocksAction = null;
@@ -34,7 +36,7 @@ public class MainScreen : MonoBehaviour
         //  Ballspawner.instance.isSpawnBall = false;
         AudioManager.instance.Play("button");
         Invoke("callPlayArea2", 0.5f);
-        Debug.Log("Hi....");
+       // Debug.Log("Hi....");
     }
 
     IEnumerator callPlayArea() {

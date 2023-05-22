@@ -44,6 +44,7 @@ public class BlockSpawner : MonoBehaviour
     Ballspawner ballspawnerCall;
 
     public Action callRestartBlocks;
+    public Vector2 worldPos;
     private void OnEnable()
     {
         instance = this;
@@ -166,6 +167,7 @@ public class BlockSpawner : MonoBehaviour
     private Vector2 GetPosition(int i)
     {
         Vector2 position = transform.position;
+         worldPos = Camera.main.WorldToViewportPoint(position);
         position += Vector2.right * i * distanceBetweenBlocks;
         return position;
     }

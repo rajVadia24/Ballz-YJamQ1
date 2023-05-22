@@ -20,6 +20,8 @@ public class Ball : MonoBehaviour
 
     BlockSpawner blockSpawner;
 
+   
+
     private void OnEnable()
     {
         blockSpawner = FindObjectOfType<BlockSpawner>();
@@ -46,11 +48,11 @@ public class Ball : MonoBehaviour
         
             counterDestroy++;
 
-            
-
+            Ballspawner.instance.ballText.text = "X" + counterDestroy;
             if (counterDestroy== Ballspawner.instance.ballPrefList.Count)
             {
 
+             
                 Ballspawner.countTmep = 0;
                 Ballspawner.instance.ballPrefList.Clear();
                
@@ -76,7 +78,9 @@ public class Ball : MonoBehaviour
             }
 
 
-            Destroy(gameObject);
+            //  Destroy(gameObject);
+
+            gameObject.SetActive(false);
 
         }
     }

@@ -60,7 +60,7 @@ public class SaveManager : MonoBehaviour
         playerData.coin = score;
         scoreTxt.text = playerData.coin;
 
-        Debug.Log("SCORE" + playerData.coin);
+//        Debug.Log("SCORE" + playerData.coin);
         savePlayer();
     }
 
