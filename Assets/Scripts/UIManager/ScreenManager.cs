@@ -16,7 +16,7 @@ public class ScreenManager : MonoBehaviour
     private void Start()
     {
         currentScreen.canvas.enabled = true;
-       
+        GameStateManager.instance.currentState = GameState.MainScreen;
     }
 
     public void ShowNextScreen(ScreenType screenType)
@@ -32,6 +32,22 @@ public class ScreenManager : MonoBehaviour
                 break;
             }
 
+        }
+
+        switch (screenType)
+        {
+            case ScreenType.MainScreen:
+                GameStateManager.instance.ChangeState(GameState.MainScreen);
+                break;
+            case ScreenType.ScoreScreen:
+                GameStateManager.instance.ChangeState(GameState.GamePlay);
+                break;
+            case ScreenType.PauseScreen:
+                GameStateManager.instance.ChangeState(GameState.PauseScreen);
+                break;
+            case ScreenType.GameOverScreen:
+                GameStateManager.instance.ChangeState(GameState.GameOver);
+                break;
         }
     }
 }

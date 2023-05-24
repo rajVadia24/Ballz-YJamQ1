@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2248877171372296113}
   - component: {fileID: 2248877171372296112}
   - component: {fileID: 2248877171372296078}
+  - component: {fileID: 1721914146453688071}
   m_Layer: 0
   m_Name: Circle
   m_TagString: ballPower
@@ -101,3 +102,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 4.1281652
+--- !u!111 &1721914146453688071
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2248877171372296115}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9ca7c1d2dcd3a44db8f677e580115029, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9ca7c1d2dcd3a44db8f677e580115029, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

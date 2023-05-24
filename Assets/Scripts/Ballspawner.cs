@@ -55,8 +55,27 @@ public class Ballspawner : MonoBehaviour
     {
         
         InputEnableDisable += OnmouseManage;
+
+        GameStateManager.OnGameStateChange += ChangeState;
     }
 
+    private void ChangeState(GameState gs)
+    {
+        switch (gs)
+        {
+            case GameState.GamePlay:
+                Debug.Log("GamePLay");
+
+
+                break;
+            case GameState.PauseScreen:
+                Debug.Log("Pause");
+                break;
+            case GameState.GameOver:
+                Debug.Log("GameOver");
+                break;
+        }
+    }
 
     void Start()
     {
@@ -184,6 +203,9 @@ public class Ballspawner : MonoBehaviour
                 BallObj.SetActive(true);
                 //BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
                 BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
+
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                ballText.enabled = false;
             }
 
 

@@ -74,7 +74,8 @@ public class Ball : MonoBehaviour
 
                 // directionLine.lineRenderer.enabled = false;
 
-               
+                Ballspawner.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                Ballspawner.instance.ballText.enabled = true;
             }
 
 
