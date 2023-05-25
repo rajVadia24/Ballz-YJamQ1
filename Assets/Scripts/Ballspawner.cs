@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.EventSystems;
 
-public class Ballspawner : MonoBehaviour
+
+public class Ballspawner : MonoBehaviour, IEndDragHandler
 {
     private Vector3 worldPosition;
     private Vector3 startPos, endPos;
@@ -44,6 +46,9 @@ public class Ballspawner : MonoBehaviour
 
    public static bool isPlay=false;
 
+    public bool isTouchmouse;
+    public float ycheck;
+
     private void Awake()
     {
         directionLine = GetComponent<DirectionLine>();
@@ -54,7 +59,7 @@ public class Ballspawner : MonoBehaviour
     private void OnEnable()
     {
         
-        InputEnableDisable += OnmouseManage;
+        
 
         GameStateManager.OnGameStateChange += ChangeState;
     }
@@ -63,16 +68,19 @@ public class Ballspawner : MonoBehaviour
     {
         switch (gs)
         {
-            case GameState.GamePlay:
+            case GameState.ScoreScreen:
                 Debug.Log("GamePLay");
-
-
+                InputEnableDisable += OnmouseManage;
                 break;
             case GameState.PauseScreen:
                 Debug.Log("Pause");
+                InputEnableDisable -= OnmouseManage;
                 break;
             case GameState.GameOver:
-                Debug.Log("GameOver");
+                InputEnableDisable -= OnmouseManage;
+                break;
+            default:
+                InputEnableDisable += OnmouseManage;
                 break;
         }
     }
@@ -100,6 +108,7 @@ public class Ballspawner : MonoBehaviour
     {
         worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.back * - 10f;
        InputEnableDisable?.Invoke();
+        
 
     }
 
@@ -109,17 +118,17 @@ public class Ballspawner : MonoBehaviour
         if (isPlay==false)
         {
             Debug.Log("BallSpawner");
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 mouseDonw(worldPosition);
                 // isSpawnBall = false;
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 mouseDrag(worldPosition);
                 //  isSpawnBall = false;
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 mouseUp();
 
@@ -130,11 +139,12 @@ public class Ballspawner : MonoBehaviour
 
     void mouseDonw(Vector3 worldPos)
     {
-        if (isSpawnBall == false)
+        if (isSpawnBall == false )
         {
-            directionLine.lineRenderer.enabled = true;
+           
+           
             startPos = worldPos;
-            directionLine.lineRenderer.enabled = true;
+            directionLine.lineRenderer.enabled = false;
             directionLine.startPoints(transform.position);
 
             Debug.Log("DOWN" + isSpawnBall);
@@ -146,37 +156,48 @@ public class Ballspawner : MonoBehaviour
     {
         if (isSpawnBall == false )
         {
+
             endPos = worldPos;
-             directionLinePoint = endPos - startPos;
-            directionLine.endPoints(transform.position - directionLinePoint);
+            direction = endPos - startPos;
 
-            //if (endPos.x < 2.5f)
-            //{
-            //    directionLine.lineRenderer.enabled = false;
-            //}
-            //else
-            //{
-            //    directionLine.lineRenderer.enabled = true;
-            //}
+            Debug.Log("DDDD=="+direction.magnitude);
 
-       //     Debug.Log("DRAG" + endPos);
+            if (direction.magnitude >= 0.95f)
+            {
+                directionLinePoint = endPos - startPos;
+                directionLine.lineRenderer.enabled = true;
+                directionLine.endPoints(transform.position - directionLinePoint);
+                isTouchmouse = true;
+            }
+            else
+            {
+                return;
+            }
+            
 
+          
+            
         }
     }
 
-
+  
     private void mouseUp()
     {
-        if (isSpawnBall == false )
+        if (isSpawnBall == false && isTouchmouse )
         {
+          
             isSpawnBall = true;
             direction = endPos - startPos;
-            direction.Normalize();
+            ycheck = direction.y;
+           // direction.Normalize();
             directionLine.lineRenderer.enabled = false;
-           
+
+         
+
+            
             StartCoroutine(spawnBallPrefab());
 
-          //  Debug.Log("UP" + isSpawnBall);
+          // 
         }
     }
 
@@ -184,53 +205,57 @@ public class Ballspawner : MonoBehaviour
     IEnumerator spawnBallPrefab()
     {
 
-        Debug.Log("herer");
+      
         count = counterBall;
-        Debug.Log("ADD" + counterBall);
-        for (int i = 1; i <= counterBall; i++)
-        {
-            tempdestroyBall = i;
-
-            BallObj = ObjectPool.instance.pooObject();
-
-
-
-            if (BallObj != null)
+    
+          for (int i = 1; i <= counterBall; i++)
             {
-                BallObj.transform.position = transform.position;
-                BallObj.transform.rotation = transform.rotation;
+                tempdestroyBall = i;
 
-                BallObj.SetActive(true);
-                //BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
-                BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
+                BallObj = ObjectPool.instance.pooObject();
 
-                gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                ballText.enabled = false;
+
+
+                if (BallObj != null)
+                {
+                    BallObj.transform.position = transform.position;
+                    BallObj.transform.rotation = transform.rotation;
+
+                    BallObj.SetActive(true);
+                    //BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
+                    BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
+
+                    Debug.Log("FORCE" + -direction);
+
+                    gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    ballText.enabled = false;
+                }
+
+
+                if (count >= 0)
+                {
+                    count = count - 1;
+                    ballText.text = "X" + count;
+                    Debug.Log(count);
+                }
+
+                //
+
+                ballPrefList.Add(BallObj);
+
+
+
+
+                yield return new WaitForSeconds(0.1f);
+
+                countTmep = 1;
+
+
             }
-
-
-            if (count >= 0)
-            {
-                count = count - 1;
-                ballText.text = "X" + count;
-                Debug.Log(count);
-            }
-           
-            //
-           
-            ballPrefList.Add(BallObj);
-
-
-
-
-            yield return new WaitForSeconds(0.1f);
-
-            countTmep = 1;
-
-
         }
-        
-    }
 
- 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
 }

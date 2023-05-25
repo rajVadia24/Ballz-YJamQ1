@@ -29,7 +29,7 @@ public class GameStateManager :MonoBehaviour
 public enum GameState
 {
     MainScreen,
-    GamePlay,
+    ScoreScreen,
     PauseScreen,
     GameOver,
 }

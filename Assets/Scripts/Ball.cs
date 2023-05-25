@@ -56,30 +56,28 @@ public class Ball : MonoBehaviour
                 Ballspawner.countTmep = 0;
                 Ballspawner.instance.ballPrefList.Clear();
                
-            //    BlockSpawner.instance.spawnBlock();
+       
 
                 Ballspawner.instance.transform.position = new Vector2(gameObject.transform.position.x, -4.74f);
                 Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y);
 
                 Ballspawner.instance.ballText.text = "X" + Ballspawner.instance.counterBall;
-              //  Ballspawner.instance.tempdestroyBall = Ballspawner.instance.counterBall;
-
-               
+            
               
                 counterAddBall = 0;
                 counterDestroy = 0;
                 blockSpawner.spawnBlock();
 
                 Ballspawner.instance.isSpawnBall = false;
+                Ballspawner.instance.isTouchmouse = false;
 
-                // directionLine.lineRenderer.enabled = false;
+
 
                 Ballspawner.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 Ballspawner.instance.ballText.enabled = true;
             }
 
 
-            //  Destroy(gameObject);
 
             gameObject.SetActive(false);
 

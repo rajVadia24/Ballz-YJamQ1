@@ -17,19 +17,32 @@ public class ScoreScreen : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-
+        GameStateManager.OnGameStateChange += ChangeState;
     }
+
+    private void ChangeState(GameState gs)
+    {
+        switch (gs)
+        {
+            case GameState.ScoreScreen:
+                Debug.Log("GamePLay");
+                Ballspawner.instance.InputEnableDisable += Ballspawner.instance.OnmouseManage;
+                break;
+
+
+        }
+    }
+
 
     void HomeBtn()
     {
         AudioManager.instance.Play("button");
-        Ballspawner.isPlay = true;
+        //Ballspawner.isPlay = true;
         ScreenManager.instance.ShowNextScreen(ScreenType.PauseScreen);
-        Time.timeScale = 0;
-        Ballspawner.instance.isSpawnBall = true;
+        //Time.timeScale = 0;
+        //Ballspawner.instance.isSpawnBall = true;
     }
 
 

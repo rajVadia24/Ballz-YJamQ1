@@ -40,7 +40,7 @@ public class ScreenManager : MonoBehaviour
                 GameStateManager.instance.ChangeState(GameState.MainScreen);
                 break;
             case ScreenType.ScoreScreen:
-                GameStateManager.instance.ChangeState(GameState.GamePlay);
+                GameStateManager.instance.ChangeState(GameState.ScoreScreen);
                 break;
             case ScreenType.PauseScreen:
                 GameStateManager.instance.ChangeState(GameState.PauseScreen);
@@ -50,4 +50,6 @@ public class ScreenManager : MonoBehaviour
                 break;
         }
     }
+
+  
 }

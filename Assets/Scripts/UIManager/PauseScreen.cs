@@ -12,7 +12,7 @@ public class PauseScreen : MainScreen
     [SerializeField] private Button restartBtn;
     public static bool cllsecondTime = false;
 
-    //MainScreen main = new MainScreen();
+   
     void Start()
     {
         continueBtn.onClick.AddListener(MainScreenNavigate);
@@ -27,31 +27,51 @@ public class PauseScreen : MainScreen
 
     }
 
+
+
+    private void OnEnable()
+    {
+        GameStateManager.OnGameStateChange += ChangeState;
+    }
+
+    private void ChangeState(GameState gs)
+    {
+        switch (gs)
+        {
+            case GameState.ScoreScreen:
+                Debug.Log("GamePLay");
+                Ballspawner.instance.InputEnableDisable += Ballspawner.instance.OnmouseManage;
+                break;
+          
+          
+        }
+    }
+
     void MainScreenNavigate()
     {
         ScreenManager.instance.ShowNextScreen(ScreenType.ScoreScreen);
-        Ballspawner.isPlay = false;
-        Time.timeScale = 1;
-        StartCoroutine(ballInputs());
+        //Ballspawner.isPlay = false;
+        //Time.timeScale = 1;
+        //StartCoroutine(ballInputs());
         AudioManager.instance.Play("button");
 
     }
     void PlayScreenNavigate()
     {
         AudioManager.instance.Play("button");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Ballspawner.isPlay = false;
-        Time.timeScale = 1;
-        StartCoroutine(ballInputs());
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Ballspawner.isPlay = false;
+        //Time.timeScale = 1;
+        //StartCoroutine(ballInputs());
     }
 
     void Restartgame()
     {
         AudioManager.instance.Play("button");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Ballspawner.isPlay = false;
-        Time.timeScale = 1;
-        StartCoroutine(ballInputs());
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Ballspawner.isPlay = false;
+        //Time.timeScale = 1;
+        //StartCoroutine(ballInputs());
     }
 
     IEnumerator ballInputs()
