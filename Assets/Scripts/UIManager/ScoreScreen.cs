@@ -27,7 +27,7 @@ public class ScoreScreen : MonoBehaviour
         switch (gs)
         {
             case GameState.ScoreScreen:
-                Debug.Log("GamePLay");
+               
                 Ballspawner.instance.InputEnableDisable += Ballspawner.instance.OnmouseManage;
                 break;
 

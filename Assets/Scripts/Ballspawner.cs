@@ -44,11 +44,12 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
     public Action InputEnableDisable;
     static int count;
 
-   public static bool isPlay=false;
+   public static bool isPlay=true;
 
     public bool isTouchmouse;
     public float ycheck;
-
+    public bool isstarted=false;
+    Vector3 callDir;
     private void Awake()
     {
         directionLine = GetComponent<DirectionLine>();
@@ -69,11 +70,11 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
         switch (gs)
         {
             case GameState.ScoreScreen:
-                Debug.Log("GamePLay");
+            
                 InputEnableDisable += OnmouseManage;
                 break;
             case GameState.PauseScreen:
-                Debug.Log("Pause");
+              
                 InputEnableDisable -= OnmouseManage;
                 break;
             case GameState.GameOver:
@@ -106,6 +107,7 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("thew input mouse poasiution"+Input.GetMouseButton(0));
         worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.back * - 10f;
        InputEnableDisable?.Invoke();
         
@@ -115,16 +117,19 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
     public void OnmouseManage()
     {
 
-        if (isPlay==false)
+        if (isPlay == false)
         {
-            Debug.Log("BallSpawner");
+            Debug.Log("in isplaty");
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
+                Debug.Log("here in getmousedown");
                 mouseDonw(worldPosition);
+                isstarted = true;
                 // isSpawnBall = false;
             }
-            else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+            else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && isstarted)
             {
+                Debug.Log("here in getmouse drag");
                 mouseDrag(worldPosition);
                 //  isSpawnBall = false;
             }
@@ -142,12 +147,17 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
         if (isSpawnBall == false )
         {
            
-           
+
+            FindObjectOfType<DirectionLine>().lineRenderer.SetPosition(0, Vector3.zero);
+            FindObjectOfType<DirectionLine>().lineRenderer.SetPosition(1, Vector3.zero);
             startPos = worldPos;
+
+            
             directionLine.lineRenderer.enabled = false;
             directionLine.startPoints(transform.position);
+            //isstarted = true;
 
-            Debug.Log("DOWN" + isSpawnBall);
+
 
         }
     }
@@ -156,18 +166,39 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
     {
         if (isSpawnBall == false )
         {
-
+            Debug.Log("here in drag");
             endPos = worldPos;
-            direction = endPos - startPos;
 
-            Debug.Log("DDDD=="+direction.magnitude);
+             callDir = endPos - startPos;
+            directionLinePoint = endPos - startPos;
+            directionLine.endPoints(transform.position - directionLinePoint);
+           
 
-            if (direction.magnitude >= 0.95f)
+
+            //    Debug.Log("DDDD=="+ callDir.magnitude);
+
+            if (callDir.magnitude >= 0.95f)
             {
-                directionLinePoint = endPos - startPos;
-                directionLine.lineRenderer.enabled = true;
-                directionLine.endPoints(transform.position - directionLinePoint);
-                isTouchmouse = true;
+               
+               
+
+                float angle = Mathf.Atan2(callDir.y, callDir.x) * Mathf.Rad2Deg - 90f;
+
+                transform.eulerAngles = Vector3.forward * angle;
+
+                Debug.Log("Angle" + angle);
+
+                if(angle >=-95 ||  angle<=-265)
+                {
+                    directionLine.lineRenderer.enabled = false;
+                    isTouchmouse = false;
+
+                }
+                else
+                {
+                    isTouchmouse = true;
+                    directionLine.lineRenderer.enabled = true;
+                }
             }
             else
             {
@@ -189,14 +220,14 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
             isSpawnBall = true;
             direction = endPos - startPos;
             ycheck = direction.y;
-           // direction.Normalize();
+           direction.Normalize();
             directionLine.lineRenderer.enabled = false;
 
          
 
             
             StartCoroutine(spawnBallPrefab());
-
+            //isstarted = false;
           // 
         }
     }
@@ -225,7 +256,7 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
                     //BallObj = Instantiate(ballPrefab, transform.position, Quaternion.identity);
                     BallObj.GetComponent<Rigidbody2D>().AddForce(-direction);
 
-                    Debug.Log("FORCE" + -direction);
+                    //Debug.Log("FORCE" + -direction);
 
                     gameObject.GetComponent<SpriteRenderer>().enabled = false;
                     ballText.enabled = false;

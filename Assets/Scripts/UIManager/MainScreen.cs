@@ -47,7 +47,7 @@ public class MainScreen : MonoBehaviour
         //BlockSpawner.instance.spawnBlocksAction += BlockSpawner.instance.spawnBlock;
         ispawnObj = true;
         Ballspawner.isPlay = false;
-        Debug.Log("isPlay...." + Ballspawner.isPlay);
+        //Debug.Log("isPlay...." + Ballspawner.isPlay);
     }
 
 
@@ -60,7 +60,7 @@ public class MainScreen : MonoBehaviour
         //BlockSpawner.instance.spawnBlocksAction += BlockSpawner.instance.spawnBlock;
         ispawnObj = true;
         Ballspawner.isPlay = false;
-        Debug.Log("isPlay...." + Ballspawner.isPlay);
+        //Debug.Log("isPlay...." + Ballspawner.isPlay);
     }
 
 

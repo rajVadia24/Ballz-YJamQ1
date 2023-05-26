@@ -59,7 +59,7 @@ public class Ball : MonoBehaviour
        
 
                 Ballspawner.instance.transform.position = new Vector2(gameObject.transform.position.x, -4.74f);
-                Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y);
+                Ballspawner.instance.ballText.transform.position= new Vector2(gameObject.transform.position.x, Ballspawner.instance.ballText.transform.position.y+0.001f);
 
                 Ballspawner.instance.ballText.text = "X" + Ballspawner.instance.counterBall;
             
@@ -71,7 +71,7 @@ public class Ball : MonoBehaviour
                 Ballspawner.instance.isSpawnBall = false;
                 Ballspawner.instance.isTouchmouse = false;
 
-
+                Ballspawner.instance.isstarted = false;
 
                 Ballspawner.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 Ballspawner.instance.ballText.enabled = true;

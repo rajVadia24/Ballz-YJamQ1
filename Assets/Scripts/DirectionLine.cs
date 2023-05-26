@@ -10,7 +10,7 @@ public class DirectionLine : MonoBehaviour
 
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
 
         lineRenderer.enabled = false;
     }
@@ -18,9 +18,15 @@ public class DirectionLine : MonoBehaviour
 
     public void startPoints(Vector3 worldPos) {
 
+        
         dragStartPoint = worldPos;
-
+        dragStartPoint = new Vector3(dragStartPoint.x, -4.67f, dragStartPoint.z);
+        //Debug.Log("the value of y"+dragStartPoint.y);
+        //Debug.Log(worldPos.y);
+        //-4.67
+        
         lineRenderer.SetPosition(0, dragStartPoint);
+
     }
 
     public void endPoints(Vector3 worldPos)

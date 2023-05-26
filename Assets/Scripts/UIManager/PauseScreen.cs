@@ -39,7 +39,7 @@ public class PauseScreen : MainScreen
         switch (gs)
         {
             case GameState.ScoreScreen:
-                Debug.Log("GamePLay");
+                //Debug.Log("GamePLay");
                 Ballspawner.instance.InputEnableDisable += Ballspawner.instance.OnmouseManage;
                 break;
           
