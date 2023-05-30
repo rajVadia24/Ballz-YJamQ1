@@ -32,4 +32,5 @@ public enum GameState
     ScoreScreen,
     PauseScreen,
     GameOver,
+    ShoapScreen
 }

@@ -48,6 +48,13 @@ public class ScreenManager : MonoBehaviour
             case ScreenType.GameOverScreen:
                 GameStateManager.instance.ChangeState(GameState.GameOver);
                 break;
+            case ScreenType.ShoapScreen:
+                GameStateManager.instance.ChangeState(GameState.GameOver);
+                break;
+
+
+
+
         }
     }
 
