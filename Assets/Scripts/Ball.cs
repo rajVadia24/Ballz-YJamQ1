@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField]
-    float speed=1f;
+   
+   public  float speed=8f;
 
     static int counterAddBall = 0;
 
@@ -20,25 +21,69 @@ public class Ball : MonoBehaviour
 
     BlockSpawner blockSpawner;
 
-   
+    float speedStore;
+
+    public Action OnMoveBalls;
+
+    public Vector2 storeVelocity;
 
     private void OnEnable()
     {
+        speedStore = speed;
         blockSpawner = FindObjectOfType<BlockSpawner>();
-       // blockSpawner = GetComponent<BlockSpawner>();
+      
+        rgBody = GetComponent<Rigidbody2D>();
+        GameStateManager.OnGameStateChange += ChangeState;
     }
 
     void Start()
     {
-        rgBody = GetComponent<Rigidbody2D>();
-        directionLine = GetComponent<DirectionLine>();
        
+        directionLine = GetComponent<DirectionLine>();
+
+      
+
+        Debug.Log(speedStore);
+
     }
+
+
+
+
+
+private void ChangeState(GameState gs)
+{
+    switch (gs)
+    {
+        case GameState.ScoreScreen:
+
+                speed = speedStore;
+                gameObject.GetComponent<Rigidbody2D>().velocity = storeVelocity.normalized;
+                break;
+        case GameState.PauseScreen:
+
+                storeVelocity = rgBody.velocity;
+                speed = 0;
+               break;
+      
+    }
+}
+
+
 
     private void FixedUpdate()
     {
-        rgBody.velocity = rgBody.velocity.normalized * speed;
+        moveBall();
+        
     }
+
+
+    public void moveBall()
+    {
+        rgBody.velocity = rgBody.velocity.normalized * speed;
+
+    }
+
 
 
     private void OnCollisionEnter2D(Collision2D collision)

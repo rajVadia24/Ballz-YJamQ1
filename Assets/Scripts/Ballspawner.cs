@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.EventSystems;
 
 
-public class Ballspawner : MonoBehaviour, IEndDragHandler
+public class Ballspawner : MonoBehaviour
 {
     private Vector3 worldPosition;
     private Vector3 startPos, endPos;
@@ -59,10 +58,7 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
 
     private void OnEnable()
     {
-        
-        
-
-        GameStateManager.OnGameStateChange += ChangeState;
+         GameStateManager.OnGameStateChange += ChangeState;
     }
 
     private void ChangeState(GameState gs)
@@ -285,8 +281,5 @@ public class Ballspawner : MonoBehaviour, IEndDragHandler
             }
         }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
