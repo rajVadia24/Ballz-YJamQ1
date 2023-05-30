@@ -22,6 +22,6 @@ public enum ScreenType
     ScoreScreen,
     PauseScreen,
     GameOverScreen,
-    ShoapScreen
+    ShopScreen
 
 }

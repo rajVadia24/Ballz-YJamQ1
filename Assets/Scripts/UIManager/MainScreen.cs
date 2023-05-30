@@ -7,16 +7,16 @@ using UnityEngine.SceneManagement;
 public class MainScreen : MonoBehaviour
 {
 
-    [SerializeField] private Button HomeButton;
+    [SerializeField] private Button HomeButton, ShopBtn;
     public static bool ispawnObj = false;
 
-   public 
-    
+
+
     void Start()
     {
-        
-        HomeButton.onClick.AddListener(HomeBtn);
 
+        HomeButton.onClick.AddListener(HomeBtn);
+        ShopBtn.onClick.AddListener(Shop);
         //BlockSpawner.instance.GetComponent<BlockSpawner>().enabled = false;
         //Ballspawner.instance.InputEnableDisable = null;
         //BlockSpawner.instance.spawnBlocksAction = null;
@@ -29,17 +29,18 @@ public class MainScreen : MonoBehaviour
 
     }
 
-   public void HomeBtn()
-   {
+    public void HomeBtn()
+    {
         ScreenManager.instance.ShowNextScreen(ScreenType.ScoreScreen);
         StartCoroutine(callPlayArea());
         //  Ballspawner.instance.isSpawnBall = false;
         AudioManager.instance.Play("button");
         Invoke("callPlayArea2", 0.5f);
-       // Debug.Log("Hi....");
+        // Debug.Log("Hi....");
     }
 
-    IEnumerator callPlayArea() {
+    IEnumerator callPlayArea()
+    {
 
         yield return new WaitForSeconds(0.5f);
         //BlockSpawner.instance.GetComponent<BlockSpawner>().enabled = true;
@@ -51,10 +52,19 @@ public class MainScreen : MonoBehaviour
     }
 
 
-   public void callPlayArea2()
+    public void Shop()
+    {
+        ScreenManager.instance.ShowNextScreen(ScreenType.ShopScreen);
+
+
+    }
+
+
+
+    public void callPlayArea2()
     {
 
-       // yield return new WaitForSeconds(0.5f);
+        // yield return new WaitForSeconds(0.5f);
         //BlockSpawner.instance.GetComponent<BlockSpawner>().enabled = true;
         //Ballspawner.instance.InputEnableDisable += Ballspawner.instance.OnmouseManage;
         //BlockSpawner.instance.spawnBlocksAction += BlockSpawner.instance.spawnBlock;
@@ -62,6 +72,8 @@ public class MainScreen : MonoBehaviour
         Ballspawner.isPlay = false;
         //Debug.Log("isPlay...." + Ballspawner.isPlay);
     }
+
+
 
 
 

@@ -34,7 +34,7 @@ public class BlockSpawner : MonoBehaviour
    
     GameObject ballSpawn;
 
-    int level;
+   private int level;
 
 
     public static BlockSpawner instance;
@@ -49,7 +49,7 @@ public class BlockSpawner : MonoBehaviour
     {
         instance = this;
         spawnBlocksAction += spawnBlock;
-      
+//        level = int.Parse(SaveManager.instance.scoreTxt.text);
 
         callRestartBlocks += restartGameBlock;
 
@@ -61,7 +61,7 @@ public class BlockSpawner : MonoBehaviour
                 //spawnBlock();
             }
         }
-       
+    
     }
 
     
@@ -73,7 +73,7 @@ public class BlockSpawner : MonoBehaviour
 
     private void Start()
     {
-        level = int.Parse(SaveManager.instance.scoreTxt.text);
+       
         ballspawnerCall = GetComponent<Ballspawner>();
     }
 

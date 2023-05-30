@@ -115,17 +115,17 @@ public class Ballspawner : MonoBehaviour
 
         if (isPlay == false)
         {
-            Debug.Log("in isplaty");
+            
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("here in getmousedown");
+              
                 mouseDonw(worldPosition);
                 isstarted = true;
                 // isSpawnBall = false;
             }
             else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && isstarted)
             {
-                Debug.Log("here in getmouse drag");
+               
                 mouseDrag(worldPosition);
                 //  isSpawnBall = false;
             }

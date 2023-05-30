@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopScreen : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    [SerializeField] private Button ShopBtn;
     void Start()
     {
-        
+        ShopBtn.onClick.AddListener(HomeBtn);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void HomeBtn()
     {
-        
+        ScreenManager.instance.ShowNextScreen(ScreenType.MainScreen);
     }
 }
