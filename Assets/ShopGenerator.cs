@@ -28,9 +28,7 @@ public class ShopGenerator : MonoBehaviour
             Callbtn.transform.parent = parrentObj.transform;
             Callbtn.transform.localScale = new Vector3(1, 1, 1);
             Callbtn.image.sprite = ballShop.shopsData[i].buttonBallIcon;
-
-
-            Callbtn.GetComponentInChildren<TextMesh>().text = ballShop.shopsData[i].txt;
+            Callbtn.GetComponentInChildren<TextMeshProUGUI>().text = ballShop.shopsData[i].txt;
 
             Debug.Log("CalllScriptable Obj");
         }
